@@ -3,7 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # This does not work outside Snowflake, so you have to use SQL instead.
-from snowflake.cortex import complete
+# from snowflake.cortex import complete
 from snowflake.snowpark import Session as snowparkSession
 from snowflake.snowpark.context import get_active_session
 
@@ -73,3 +73,4 @@ if user_question:
     response = session.sql(f"SELECT SNOWFLAKE.CORTEX.COMPLETE('claude-3-5-sonnet', '{user_question}');").collect()[0][0]
 
     st.write(response)
+
