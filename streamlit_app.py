@@ -3,13 +3,18 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # This does not work outside Snowflake, so you have to use SQL instead.
-# from snowflake.cortex import complete
+from snowflake.cortex import complete
+from snowflake.snowpark import Session as snowparkSession
+from snowflake.snowpark.context import get_active_session
+
+# Get the current Snowflake credentials
+session = get_active_session()
 
 # Initialize the Streamlit app
 st.title("Avalanche Streamlit App")
 
 # Get data from Snowflake. This is instead of using get_active_session
-session = st.connection("snowflake").session()
+# session = st.connection("snowflake").session()
 query = """
 SELECT
     *
@@ -66,4 +71,5 @@ if user_question:
     # response = complete(model="claude-3-5-sonnet", prompt=f"Answer this question using the dataset: {user_question} <context>{df_string}</context>", session=session)
     # Use SQL instead:
     response = session.sql(f"SELECT SNOWFLAKE.CORTEX.COMPLETE('claude-3-5-sonnet', '{user_question}');").collect()[0][0]
+
     st.write(response)
