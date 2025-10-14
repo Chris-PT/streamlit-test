@@ -8,7 +8,9 @@ from snowflake.snowpark import Session as snowparkSession
 from snowflake.snowpark.context import get_active_session
 
 # Get the current Snowflake credentials
-session = get_active_session()
+# session = get_active_session()
+
+session = snowparkSession.builder.configs(st.secrets["connections"]["snowflake"]).create()
 
 # Initialize the Streamlit app
 st.title("Avalanche Streamlit App")
@@ -73,4 +75,5 @@ if user_question:
     response = session.sql(f"SELECT SNOWFLAKE.CORTEX.COMPLETE('claude-3-5-sonnet', '{user_question}');").collect()[0][0]
 
     st.write(response)
+
 
